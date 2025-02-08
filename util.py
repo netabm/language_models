@@ -1,4 +1,4 @@
-from keras.preprocessing.text import text_to_word_sequence
+import re
 from keras.layers import Layer
 import keras.utils
 import keras.backend as K
@@ -6,7 +6,7 @@ import keras.backend as K
 from nltk import FreqDist
 import numpy as np
 
-from keras.preprocessing import sequence
+from tensorflow.keras.preprocessing.sequence import pad_sequences
 
 from scipy.special import logsumexp
 
@@ -24,6 +24,11 @@ Some of this code is based on Based on https://github.com/ChunML/seq2seq/blob/ma
 # Special tokens
 EXTRA_SYMBOLS = ['<PAD>', '<START>', '<UNK>', '<EOS>']
 DIR = os.path.dirname(os.path.realpath(__file__))
+
+def text_to_word_sequence(text):
+   text = text.lower() 
+   text = re.sub(r'[^\w\s]', '', text) 
+   return text.split()
 
 def load_words(source, vocab_size=10000, limit=None, max_length=None):
     """
@@ -166,7 +171,7 @@ def batch_pad(x, batch_size, min_length=3, add_eos=False, extra_padding=0):
         mlen = max([len(l) + extra_padding for l in batch])
 
         if mlen >= min_length:
-            batch = sequence.pad_sequences(batch, maxlen=mlen, dtype='int32', padding='post', truncating='post')
+            batch = pad_sequences(batch, maxlen=mlen, dtype='int32', padding='post', truncating='post')
 
             batches.append(batch)
 
