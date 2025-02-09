@@ -1,12 +1,12 @@
-from keras.preprocessing.text import text_to_word_sequence
-from keras.layers import Layer
-import keras.utils
-import keras.backend as K
+from tensorflow.keras.preprocessing.text import text_to_word_sequence
+from tensorflow.keras.layers import Layer
+import tensorflow.keras.utils
+import tensorflow.keras.backend as K
 
 from nltk import FreqDist
 import numpy as np
 
-from keras.preprocessing import sequence
+from tensorflow.keras.preprocessing import sequence
 
 from scipy.special import logsumexp
 
@@ -190,7 +190,7 @@ def to_categorical(batch, num_classes):
 
     for i in range(b):
         seq = batch[0, :]
-        out[i, :, :] = keras.utils.to_categorical(seq, num_classes=num_classes)
+        out[i, :, :] = tensorflow.keras.utils.to_categorical(seq, num_classes=num_classes)
 
     return out
 
